@@ -1,5 +1,5 @@
 <?php
-
+namespace Skudler\SkudlerApi;
 /**
  *
  */
@@ -11,7 +11,7 @@ class SkudlerAPI
     protected $apiKey;
     protected $token;
 
-    public function __construct($apiKey, $token)
+    public function __construct($apiKey = '', $token = '')
     {
         $this->apiKey   = $apiKey;
         $this->token    = $token;
