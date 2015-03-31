@@ -1,0 +1,18 @@
+{
+  "name": "skudler/skudler-api",
+  "type": "library",
+  "description": "Libray to connect to the Skudler API",
+  "keywords": ["marketing","email"],
+  "homepage": "https://github.com/havenS/skudler-api",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Julien Fournier",
+      "email": "fournier.j@sfr.fr",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  }
+}
