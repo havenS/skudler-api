@@ -1,4 +1,4 @@
-<?php include_once('SkudlerAPI.php');
+<?php include_once(dirname(dirname(__FILE__)).'/src/SkudlerAPI.php');
 
 $apikey = '';
 $token  = '';

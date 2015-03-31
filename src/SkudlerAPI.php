@@ -1,5 +1,5 @@
 <?php
-namespace Skudler\SkudlerApi;
+namespace Skudler;
 /**
  *
  */
