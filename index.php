@@ -1,31 +1,49 @@
-<?php include_once('Skudler.php');
+<?php include_once('SkudlerAPI.php');
 
+$apikey = '';
+$token  = '';
 
-$skudler = new Skudler('poulks@hotmail.com','131286');
+if(isset($_POST['apiKey']) && isset($_POST['token'])) {
 
-$sites = $skudler->getSites(true);
+    $apikey = $_POST['apiKey'];
+    $token  = $_POST['token'];
 
-if(isset($_POST['site'])){
+    $skudler = new SkudlerAPI($apikey, $token);
+
+    $sites = $skudler->getSites(true);
+
+    if (isset($_POST['site'])) {
 //    $events     = $skudler->getEvents($_POST['site'], true);
-    $triggers   = $skudler->getTriggers($_POST['site'], true);
-}
-if(isset($_POST['subscriber']) && isset($_POST['trigger'])){
-    $subscription = $skudler->addSubscription($_POST['trigger'], $_POST['subscriber']);
-}
+        $triggers = $skudler->getTriggers($_POST['site'], true);
+    }
+    if (isset($_POST['subscriber']) && isset($_POST['trigger'])) {
+        $subscription = $skudler->addSubscription($_POST['trigger'], $_POST['subscriber']);
+    }
 
-if($skudler->error)
-    echo ' /!\ ' . $skudler->error . ' /!\ ';
-
+    if ($skudler->error)
+        echo ' /!\ ' . $skudler->error . ' /!\ ';
+}
 ?>
 
 <form method="post">
 
-    <label for="sites">Sites</label>
-    <select id="sites" name="site">
-        <?php foreach($sites as $s){ ?>
-            <option value="<?php echo $s->_id;?>"><?php echo $s->name;?></option>
-        <?php } ?>
-    </select>
+    <label for="apiKey">API Key</label>
+    <input type="text" id="apiKey" name="apiKey" value="<?php echo $apikey;?>">
+
+    <label for="token">Token</label>
+    <input type="text" id="token" name="token" value="<?php echo $token;?>">
+
+
+    <?php if(!empty($sites)){ ?>
+
+        <label for="sites">Sites</label>
+        <select id="sites" name="site">
+            <?php foreach($sites as $s){ ?>
+                <option value="<?php echo $s->_id;?>"><?php echo $s->name;?></option>
+            <?php } ?>
+        </select>
+
+    <?php } ?>
 
     <?php if(!empty($events)){ ?>
         <hr>

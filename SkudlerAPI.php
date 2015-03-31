@@ -1,0 +1,112 @@
+<?php
+
+/**
+ *
+ */
+class SkudlerAPI
+{
+    public $error;
+
+    protected $server = 'http://skudler.com/api/';
+    protected $apiKey;
+    protected $token;
+
+    public function __construct($apiKey, $token)
+    {
+        $this->apiKey   = $apiKey;
+        $this->token    = $token;
+    }
+
+    public function getSites($onlyResponse = true)
+    {
+        $resource = 'sites';
+
+        return $this->getResource('GET', $resource, $onlyResponse);
+    }
+
+    public function getEvents($site, $onlyResponse = true)
+    {
+        $resource = 'events';
+
+        $data = array('siteId' => $site);
+
+        return $this->getResource('GET', $resource, $onlyResponse, $data);
+    }
+
+    public function getTriggers($site, $onlyResponse = true)
+    {
+        $resource = 'triggers';
+
+        $data = array('siteId' => $site);
+
+        return $this->getResource('GET', $resource, $onlyResponse, $data);
+    }
+
+    public function getSchedules($onlyResponse = true)
+    {
+        $resource = 'schedules';
+
+        return $this->getResource('GET', $resource, $onlyResponse);
+    }
+
+    public function getSubscribers($onlyResponse = true)
+    {
+        $resource = 'subscribers';
+
+        return $this->getResource('GET', $resource, $onlyResponse);
+    }
+
+    public function addSubscription($triggerId, $subscriberInfo, $onlyResponse = true)
+    {
+        $resource = 'subscriptions';
+        $data = array(
+            'triggerId'         => $triggerId,
+            'firstname'         => isset($subscriberInfo['firstname'])      ? $subscriberInfo['firstname']      : '',
+            'lastname'          => isset($subscriberInfo['lastname'])       ? $subscriberInfo['lastname']       : '',
+            'email'             => isset($subscriberInfo['email'])          ? $subscriberInfo['email']          : '',
+            'reference_date'    => isset($subscriberInfo['reference_date']) ? $subscriberInfo['reference_date'] : ''
+        );
+
+        return $this->getResource('POST', $resource, $onlyResponse, $data);
+    }
+
+
+
+
+
+    protected function getResource($method, $resource, $onlyResponse = true, $data = array())
+    {
+
+        $call = $this->call($method, $resource, $data);
+        if(isset($call->status)) {
+            if ($call->status == 'success'){
+                return $onlyResponse ? $call->data : $call;
+            } else {
+                $this->error = $call->message;
+            }
+        }
+
+    }
+
+    protected function call($method, $resource, $data = array())
+    {
+        $header = "Content-type: application/x-www-form-urlencoded\r\n";
+
+        $header .=  "X-Api-Key: {$this->apiKey}\r\n" .
+            "X-Api-Token: {$this->token}\r\n";
+
+        $options = array(
+            'http' => array(
+                'header'  => $header,
+                'method'  => $method,
+                'content' => http_build_query($data),
+            ),
+        );
+
+        $context        = stream_context_create($options);
+        $jsonResponse   = file_get_contents($this->server.$resource, false, $context);
+
+        return json_decode($jsonResponse);
+    }
+
+}
