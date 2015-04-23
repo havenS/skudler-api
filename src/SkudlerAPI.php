@@ -33,9 +33,9 @@ class SkudlerAPI
         return $this->getResource('GET', $resource, $onlyResponse, $data);
     }
 
-    public function getTriggers($site, $onlyResponse = true)
+    public function getActions($site, $onlyResponse = true)
     {
-        $resource = 'triggers';
+        $resource = 'actions';
 
         $data = array('siteId' => $site);
 
@@ -56,11 +56,11 @@ class SkudlerAPI
         return $this->getResource('GET', $resource, $onlyResponse);
     }
 
-    public function addSubscription($triggerId, $subscriberInfo, $onlyResponse = true)
+    public function addSubscription($eventId, $subscriberInfo, $onlyResponse = true)
     {
         $resource = 'subscriptions';
         $data = array(
-            'triggerId'         => $triggerId,
+            'eventId'           => $eventId,
             'firstname'         => isset($subscriberInfo['firstname'])      ? $subscriberInfo['firstname']      : '',
             'lastname'          => isset($subscriberInfo['lastname'])       ? $subscriberInfo['lastname']       : '',
             'email'             => isset($subscriberInfo['email'])          ? $subscriberInfo['email']          : '',
