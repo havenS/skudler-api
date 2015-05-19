@@ -8,7 +8,7 @@ class SkudlerAPI
     public $error;
 
 //    protected $server = 'http://localhost:3000/api/';
-    protected $server = 'http://skudler.com/api/';
+    protected $server = 'http://www.skudler.com/api/';
     protected $apiKey;
     protected $token;
 
@@ -77,7 +77,7 @@ class SkudlerAPI
 
     protected function getResource($method, $resource, $onlyResponse = true, $data = array())
     {
-
+var_dump($data);
         $call = $this->call($method, $resource, $data);
         if(isset($call->status)) {
             if ($call->status == 'success'){

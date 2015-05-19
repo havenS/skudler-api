@@ -13,7 +13,6 @@ if(isset($_POST['apiKey']) && isset($_POST['token'])) {
     $sites = $skudler->getSites(true);
 
     if (isset($_POST['site'])) {
-//    $events     = $skudler->getEvents($_POST['site'], true);
         $events = $skudler->getEvents($_POST['site'], true);
     }
     if (isset($_POST['subscriber']) && isset($_POST['event'])) {
