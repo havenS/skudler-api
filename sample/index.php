@@ -8,16 +8,16 @@ if(isset($_POST['apiKey']) && isset($_POST['token'])) {
     $apikey = $_POST['apiKey'];
     $token  = $_POST['token'];
 
-    $skudler = new SkudlerAPI($apikey, $token);
+    $skudler = new Skudler\SkudlerAPI($apikey, $token);
 
     $sites = $skudler->getSites(true);
 
     if (isset($_POST['site'])) {
 //    $events     = $skudler->getEvents($_POST['site'], true);
-        $triggers = $skudler->getTriggers($_POST['site'], true);
+        $events = $skudler->getEvents($_POST['site'], true);
     }
-    if (isset($_POST['subscriber']) && isset($_POST['trigger'])) {
-        $subscription = $skudler->addSubscription($_POST['trigger'], $_POST['subscriber']);
+    if (isset($_POST['subscriber']) && isset($_POST['event'])) {
+        $subscription = $skudler->addSubscription($_POST['event'], $_POST['subscriber']);
     }
 
     if ($skudler->error)
@@ -39,7 +39,8 @@ if(isset($_POST['apiKey']) && isset($_POST['token'])) {
         <label for="sites">Sites</label>
         <select id="sites" name="site">
             <?php foreach($sites as $s){ ?>
-                <option value="<?php echo $s->_id;?>"><?php echo $s->name;?></option>
+                <option value="<?php echo $s->_id;?>"
+                    <?php if(isset($_POST['site']) && $_POST['site'] == $s->_id) echo ' selected';?>><?php echo $s->name;?></option>
             <?php } ?>
         </select>
 
@@ -50,19 +51,7 @@ if(isset($_POST['apiKey']) && isset($_POST['token'])) {
 
         <label for="events">Events</label>
         <select id="events" name="event">
-            <?php foreach($events as $e){ ?>
-                <option value="<?php echo $e->_id;?>"><?php echo $e->title;?></option>
-            <?php } ?>
-        </select>
-
-    <?php } ?>
-
-    <?php if(!empty($triggers)){ ?>
-        <hr>
-
-        <label for="triggers">Triggers</label>
-        <select id="triggers" name="trigger">
-            <?php foreach($triggers as $t){ ?>
+            <?php foreach($events as $t){ ?>
                 <option value="<?php echo $t->_id;?>"><?php echo $t->name;?></option>
             <?php } ?>
         </select>

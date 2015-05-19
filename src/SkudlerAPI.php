@@ -7,7 +7,8 @@ class SkudlerAPI
 {
     public $error;
 
-    protected $server = 'http://skudler.com/api/';
+    protected $server = 'http://localhost:3000/api/';
+//    protected $server = 'http://skudler.com/api/';
     protected $apiKey;
     protected $token;
 
@@ -64,7 +65,7 @@ class SkudlerAPI
             'firstname'         => isset($subscriberInfo['firstname'])      ? $subscriberInfo['firstname']      : '',
             'lastname'          => isset($subscriberInfo['lastname'])       ? $subscriberInfo['lastname']       : '',
             'email'             => isset($subscriberInfo['email'])          ? $subscriberInfo['email']          : '',
-            'reference_date'    => isset($subscriberInfo['reference_date']) ? $subscriberInfo['reference_date'] : ''
+            'reference_date'    => isset($subscriberInfo['reference_date']) ? $subscriberInfo['reference_date'] : date('Y-m-d H:i:s')
         );
 
         return $this->getResource('POST', $resource, $onlyResponse, $data);
@@ -104,7 +105,7 @@ class SkudlerAPI
         );
 
         $context        = stream_context_create($options);
-        $jsonResponse   = file_get_contents($this->server.$resource, false, $context);
+        $jsonResponse   = @file_get_contents($this->server.$resource, false, $context);
 
         return json_decode($jsonResponse);
     }
