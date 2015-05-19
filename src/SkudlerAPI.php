@@ -7,8 +7,8 @@ class SkudlerAPI
 {
     public $error;
 
-    protected $server = 'http://localhost:3000/api/';
-//    protected $server = 'http://skudler.com/api/';
+//    protected $server = 'http://localhost:3000/api/';
+    protected $server = 'http://skudler.com/api/';
     protected $apiKey;
     protected $token;
 
