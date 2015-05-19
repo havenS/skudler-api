@@ -77,8 +77,8 @@ class SkudlerAPI
 
     protected function getResource($method, $resource, $onlyResponse = true, $data = array())
     {
-var_dump($data);
         $call = $this->call($method, $resource, $data);
+
         if(isset($call->status)) {
             if ($call->status == 'success'){
                 return $onlyResponse ? $call->data : $call;
