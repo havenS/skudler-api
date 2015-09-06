@@ -62,11 +62,11 @@ class SkudlerAPI
         $resource = 'subscriptions';
         $data = array(
             'eventId'           => $eventId,
-            'firstname'         => isset($subscriberInfo['firstname'])      ? $subscriberInfo['firstname']      : '',
-            'lastname'          => isset($subscriberInfo['lastname'])       ? $subscriberInfo['lastname']       : '',
-            'email'             => isset($subscriberInfo['email'])          ? $subscriberInfo['email']          : '',
             'reference_date'    => isset($subscriberInfo['reference_date']) ? $subscriberInfo['reference_date'] : date('Y-m-d H:i:s')
         );
+
+        foreach($subscriberInfo as $key => $value)
+            $data[$key] = $value;
 
         return $this->getResource('POST', $resource, $onlyResponse, $data);
     }
