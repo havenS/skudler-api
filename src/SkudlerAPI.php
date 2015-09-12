@@ -5,10 +5,9 @@ namespace Skudler;
  */
 class SkudlerAPI
 {
-    public $error;
 
-//    protected $server = 'http://localhost:3000/api/';
-    protected $server = 'http://www.skudler.com/api/';
+    protected $server = 'http://localhost:3000/api/';
+//    protected $server = 'http://www.skudler.com/api/';
     protected $apiKey;
     protected $token;
 
@@ -71,6 +70,20 @@ class SkudlerAPI
         return $this->getResource('POST', $resource, $onlyResponse, $data);
     }
 
+    public function deleteSubscription($eventId, $subscriberInfo, $onlyResponse = true)
+    {
+        $resource = 'subscriptions';
+        $data = array(
+            'eventId'       => $eventId,
+            'remove'   => true
+        );
+
+        foreach($subscriberInfo as $key => $value)
+            $data[$key] = $value;
+
+        return $this->getResource('POST', $resource, $onlyResponse, $data);
+    }
+
 
 
 
@@ -83,7 +96,7 @@ class SkudlerAPI
             if ($call->status == 'success'){
                 return $onlyResponse ? $call->data : $call;
             } else {
-                $this->error = $call->message;
+                return $onlyResponse ? $call->message : $call;
             }
         }
 
