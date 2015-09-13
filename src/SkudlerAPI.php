@@ -72,16 +72,15 @@ class SkudlerAPI
 
     public function deleteSubscription($eventId, $subscriberInfo, $onlyResponse = true)
     {
-        $resource = 'subscriptions';
+        $resource = 'subscriptions/'.$eventId;
         $data = array(
-            'eventId'       => $eventId,
             'remove'   => true
         );
 
         foreach($subscriberInfo as $key => $value)
             $data[$key] = $value;
 
-        return $this->getResource('POST', $resource, $onlyResponse, $data);
+        return $this->getResource('DELETE', $resource, $onlyResponse, $data);
     }
 
 
